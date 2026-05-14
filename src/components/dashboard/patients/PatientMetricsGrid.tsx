@@ -4,8 +4,8 @@
 
 import { StatCard } from "@/components/molecules/StatCard";
 import { useAppointmentStore } from "@/store/useAppointmentStore";
-import { mockPatients } from "../../data/mockPatients";
-import type { User } from "../../types/user.types";
+import { mockPatients } from "../../../data/mockPatients";
+import type { User } from "../../../types/user.types";
 
 interface PatientMetricsGridProps {
   user: User;

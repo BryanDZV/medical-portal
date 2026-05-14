@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import type { Appointment } from "@/types/appointment.types";
-import type { User } from "../../types/user.types";
+import type { User } from "../../../types/user.types";
 import { Modal } from "@/components/atoms/Modal";
 import { mockDoctors } from "@/data/mockDoctors";
 import { mockPatients } from "@/data/mockPatients";
