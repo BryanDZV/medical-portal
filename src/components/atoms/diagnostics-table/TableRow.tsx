@@ -6,9 +6,10 @@ import { useDiagnosticsTable } from "@/contexts/DiagnosticsTableContext";
 interface TableRowProps {
   record: MedicalRecord;
   onEditRecord: (record: MedicalRecord) => void;
+  onShowNotes: (record: MedicalRecord) => void;
 }
 
-export function TableRow({ record, onEditRecord }: TableRowProps) {
+export function TableRow({ record, onEditRecord, onShowNotes }: TableRowProps) {
   const { getDoctorName, deleteRecord } = useDiagnosticsTable();
 
   return (
@@ -19,7 +20,32 @@ export function TableRow({ record, onEditRecord }: TableRowProps) {
       <td className="px-4 py-3 text-sm font-semibold text-slate-900">
         {record.diagnosis}
       </td>
-      <td className="px-4 py-3 text-sm text-slate-700">{record.notes}</td>
+      <td className="px-4 py-3 text-sm text-slate-700 align-top">
+        <div className="whitespace-normal wrap-break-word max-w-[40ch] md:max-w-[60ch]">
+          <div
+            className="overflow-hidden"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflowWrap: "anywhere",
+            }}
+          >
+            {record.notes}
+          </div>
+
+          {record.notes && record.notes.length > 120 && (
+            <button
+              type="button"
+              onClick={() => onShowNotes(record)}
+              className="mt-2 inline-block text-xs font-semibold text-sky-600 underline"
+              aria-label={`Ver notas completas de registro ${record.id}`}
+            >
+              Leer más
+            </button>
+          )}
+        </div>
+      </td>
       <td className="px-4 py-3 text-sm text-slate-700">
         {record.prescriptions.join(", ") || "Sin prescripción"}
       </td>
