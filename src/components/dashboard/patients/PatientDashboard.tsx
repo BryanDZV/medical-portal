@@ -7,8 +7,12 @@ import type { User } from "../../../types/user.types";
 import { NavBarForUsers } from "../../layout/NavBarForUsers";
 import { PatientMetricsGrid } from "./PatientMetricsGrid";
 import { GranularErrorBoundary } from "@/components/atoms/GranularErrorBoundary";
-import { ProfileEditModal } from "../ProfileEditModal";
+import dynamic from "next/dynamic";
 
+const ProfileEditModal = dynamic(
+  () => import("../ProfileEditModal").then((mod) => mod.ProfileEditModal),
+  { ssr: false }
+);
 import { Button } from "@/components/atoms/Button";
 import Link from "next/link";
 
