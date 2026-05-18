@@ -113,7 +113,7 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
                     setSelectedPatientId(patient.id);
                     setShowDiagnostics(false);
                   }}
-                  className={`min-w-[260px] shrink-0 rounded-xl border p-4 text-left transition ${selectedPatientId === patient.id
+                  className={`min-w-65 shrink-0 rounded-xl border p-4 text-left transition ${selectedPatientId === patient.id
                     ? "border-blue-500 bg-blue-50"
                     : "border-slate-200 hover:bg-slate-50"
                     }`}
@@ -143,24 +143,55 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
             diagnósticos.
           </p>
         )}
-        <p className="text-sm text-slate-600">
-          Selecciona un paciente para crear expediente y revisar sus
-          diagnósticos.
-        </p>
-        )}
 
         {selectedPatient && (
           <>
-            <h3 className="text-xl font-bold text-slate-900">
-              {selectedPatient.name}
-            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  {selectedPatient.name}
+                </h3>
+                <p className="mt-1 text-sm text-slate-600">
+                  {selectedPatient.age} años · {selectedPatient.phone} · {" "}
+                  {records.filter((r) => r.patientId === selectedPatient.id)
+                    .length} expedientes
+                </p>
+              </div>
 
-            <div className="mt-5 space-y-6">
-              <CreateMedicalRecordForm
-                user={user}
-                selectedPatientId={selectedPatient.id}
-              />
-              {showDiagnostics && (
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveView("create");
+                    setShowDiagnostics(false);
+                  }}
+                  className="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Crear expediente
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveView("view");
+                    setShowDiagnostics(true);
+                  }}
+                  className="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Ver diagnósticos
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-5">
+              {activeView === "create" && (
+                <CreateMedicalRecordForm
+                  user={user}
+                  selectedPatientId={selectedPatient.id}
+                />
+
+              )}
+
+              {activeView === "view" && showDiagnostics && (
                 <div id="diagnostics-visualization">
                   <DiagnosticsTable
                     selectedPatientId={selectedPatient.id}
@@ -175,3 +206,5 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
     </section>
   );
 }
+
+
