@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
-import { AccessibilityPanel } from "@/components/accessibility/AccessibilityPanel";
+import dynamic from "next/dynamic";
 
+const AccessibilityPanel = dynamic(
+  () => import("@/components/accessibility/AccessibilityPanel").then(mod => mod.AccessibilityPanel)
+);
 /* Carga fuentes de forma optimizada con next/font*/
 const geistSans = Geist({
   variable: "--font-geist-sans",
