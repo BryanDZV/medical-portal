@@ -6,7 +6,7 @@ import { TableHeader } from "@/components/atoms/diagnostics-table/TableHeader";
 import { TableRow } from "@/components/atoms/diagnostics-table/TableRow";
 import { PaginationControls } from "@/components/atoms/diagnostics-table/PaginationControls";
 import { useDiagnosticsTable } from "@/contexts/DiagnosticsTableContext";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { MedicalRecord } from "@/types/medical-record.types";
 
 interface DiagnosticsTableProps {
@@ -19,19 +19,33 @@ function DiagnosticsTableContent({
 }: {
   onEditRecord: (record: MedicalRecord) => void;
 }) {
-  const { paginatedRecords, totalCount, filteredCount } = useDiagnosticsTable();
+  const {
+    paginatedRecords,
+    totalCount,
+    filteredCount,
+    getDoctorName,
+    deleteRecord,
+  } = useDiagnosticsTable();
   const [expandedRecord, setExpandedRecord] = useState<MedicalRecord | null>(null);
+  const containerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   return (
     <section
-      className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+      ref={containerRef}
+      className="mt-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:rounded-2xl sm:p-5"
       aria-labelledby="diagnostics-table-title"
     >
-      <div className="flex flex-wrap items-end justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h3
             id="diagnostics-table-title"
-            className="text-xl font-bold text-slate-900"
+            className="text-lg font-bold text-slate-900 sm:text-xl"
           >
             Visualización de diagnósticos
           </h3>
@@ -50,8 +64,95 @@ function DiagnosticsTableContent({
         <FilterPanel />
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200">
-        <table className="min-w-full divide-y divide-slate-200" role="table">
+      <div className="mt-4 sm:hidden">
+        {paginatedRecords.length === 0 && (
+          <div className="rounded-xl border border-slate-200 bg-white px-4 py-6 text-center text-sm text-slate-600">
+            No hay diagnósticos que coincidan con los filtros actuales.
+          </div>
+        )}
+
+        {paginatedRecords.length > 0 && (
+          <ul className="space-y-3">
+            {paginatedRecords.map((record) => (
+              <li
+                key={record.id}
+                className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+              >
+                <div className="flex flex-col gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Diagnóstico
+                    </p>
+                    <p className="text-base font-semibold text-slate-900">
+                      {record.diagnosis}
+                    </p>
+                    <p className="mt-1 text-xs text-slate-600">
+                      {new Date(record.createdAt).toLocaleDateString()} · {getDoctorName(record.doctorId)}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Notas
+                    </p>
+                    <div className="mt-1 text-sm text-slate-700">
+                      <div
+                        className="overflow-hidden"
+                        style={{
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: "vertical",
+                          overflowWrap: "anywhere",
+                        }}
+                      >
+                        {record.notes}
+                      </div>
+                    </div>
+                    {record.notes && record.notes.length > 120 && (
+                      <button
+                        type="button"
+                        onClick={() => setExpandedRecord(record)}
+                        className="mt-2 inline-flex text-xs font-semibold text-sky-600 underline"
+                      >
+                        Leer más
+                      </button>
+                    )}
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Prescripciones
+                    </p>
+                    <p className="mt-1 text-sm text-slate-700">
+                      {record.prescriptions.join(", ") || "Sin prescripción"}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onEditRecord(record)}
+                      className="w-full rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white"
+                    >
+                      Modificar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => deleteRecord(record.id)}
+                      className="w-full rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="mt-4 hidden overflow-x-auto rounded-xl border border-slate-200 sm:block">
+        <table className="min-w-720px divide-y divide-slate-200" role="table">
           <caption className="sr-only">
             Tabla de diagnósticos del paciente
           </caption>
