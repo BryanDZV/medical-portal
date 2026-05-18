@@ -33,7 +33,7 @@ export function DoctorAppointments({ user }: DoctorAppointmentsProps) {
   );
 
   return (
-    <section className="mt-8 rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <section className="mt-8 rounded-xl bg-white p-4 shadow-sm border border-slate-200 sm:rounded-2xl sm:p-6">
       <h2 className="text-2xl font-bold text-slate-900">Citas de pacientes</h2>
 
       <div className="mt-5 space-y-4">
@@ -81,13 +81,13 @@ export function DoctorAppointments({ user }: DoctorAppointmentsProps) {
                 </div>
 
                 {appointment.status === "pending" && (
-                  <div className="flex gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row">
                     <button
                       onClick={() =>
                         //La función es async, pero no necesitamos esperar el resultado porque el optimistic update ya actualiza la UI inmediatamente.
                         void updateAppointmentStatus(appointment.id, "confirmed")
                       }
-                      className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white"
+                      className="w-full rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white sm:w-auto"
                     >
                       Confirmar
                     </button>
@@ -97,7 +97,7 @@ export function DoctorAppointments({ user }: DoctorAppointmentsProps) {
                         //La función es async, pero no necesitamos esperar el resultado porque el optimistic update ya actualiza la UI inmediatamente.
                         void updateAppointmentStatus(appointment.id, "cancelled")
                       }
-                      className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white"
+                      className="w-full rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white sm:w-auto"
                     >
                       Cancelar
                     </button>

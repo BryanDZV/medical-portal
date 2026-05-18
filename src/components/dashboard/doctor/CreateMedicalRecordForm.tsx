@@ -2,8 +2,9 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { User } from "@/types/user.types";
+import type { MedicalRecord } from "@/types/medical-record.types";
 import { MedicalRecordFormProvider } from "@/providers/MedicalRecordFormProvider";
 import { StepIndicator } from "@/components/atoms/medical-record/StepIndicator";
 import { DiagnosisStep } from "@/components/atoms/medical-record/DiagnosisStep";
@@ -15,6 +16,8 @@ import { FormActions } from "@/components/atoms/medical-record/FormActions";
 interface CreateMedicalRecordFormProps {
   user: User;
   selectedPatientId: string;
+  editingRecord?: MedicalRecord | null;
+  onShowDiagnostics: () => void;
 }
 
 /**
@@ -24,26 +27,24 @@ interface CreateMedicalRecordFormProps {
 export function CreateMedicalRecordForm({
   user,
   selectedPatientId,
+  editingRecord,
+  onShowDiagnostics,
 }: CreateMedicalRecordFormProps) {
-  const [isEditing, setIsEditing] = useState(false);
+  const isEditing = Boolean(editingRecord);
+  const formTitleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    const handler = () => setIsEditing(true);
-    const handlerReset = () => setIsEditing(false);
-
-    window.addEventListener("medical-record:load-for-edit", handler);
-    window.addEventListener("medical-record:reset", handlerReset);
-
-    return () => {
-      window.removeEventListener("medical-record:load-for-edit", handler);
-      window.removeEventListener("medical-record:reset", handlerReset);
-    };
-  }, []);
+    if (isEditing && formTitleRef.current) {
+      formTitleRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [isEditing, editingRecord]);
 
   return (
     <MedicalRecordFormProvider
+      key={editingRecord?.id || "new-record"}
       user={user}
       selectedPatientId={selectedPatientId}
+      initialData={editingRecord}
     >
       <section
         className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
@@ -51,6 +52,7 @@ export function CreateMedicalRecordForm({
       >
         <h3
           id="medical-record-form-title"
+          ref={formTitleRef}
           className="text-xl font-bold text-slate-900"
         >
           {isEditing ? "Editar expediente" : "Crear expediente"} - Multi-paso
@@ -90,15 +92,7 @@ export function CreateMedicalRecordForm({
         <div className="mt-4">
           <button
             type="button"
-            onClick={() => {
-              window.dispatchEvent(
-                new CustomEvent("medical-record:show-diagnostics"),
-              );
-              const target = document.getElementById(
-                "diagnostics-visualization",
-              );
-              target?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
+            onClick={onShowDiagnostics}
             className="inline-flex rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition motion-safe:duration-200 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-600 focus-visible:ring-offset-2"
           >
             Ir a visualización de diagnósticos

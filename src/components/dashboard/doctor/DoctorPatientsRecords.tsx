@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import type { MedicalRecord } from "@/types/medical-record.types";
 import type { User } from "@/types/user.types";
 import { SearchBar } from "@/components/molecules/SearchBar";
@@ -23,22 +23,12 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
   const [query, setQuery] = useState("");
   // Aplicamos debouncing para evitar filtrados en cada pulsación de teclado.
 
+  const [editingRecord, setEditingRecord] = useState<MedicalRecord | null>(null);
   const [selectedPatientId, setSelectedPatientId] = useState<string>("");
   const [showDiagnostics, setShowDiagnostics] = useState(false);
   const [activeView, setActiveView] = useState<"none" | "create" | "view">(
     "none",
   );
-
-  useEffect(() => {
-    const handler = () => {
-      setShowDiagnostics(true);
-      setActiveView("view");
-    };
-
-    window.addEventListener("medical-record:show-diagnostics", handler);
-    return () =>
-      window.removeEventListener("medical-record:show-diagnostics", handler);
-  }, []);
 
 
   const patientFilter = useCallback(
@@ -65,17 +55,19 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
   );
 
   const handleEditRecord = (record: MedicalRecord) => {
-    window.dispatchEvent(
-      new CustomEvent("medical-record:load-for-edit", {
-        detail: record,
-      }),
-    );
-    const formTitle = document.getElementById("medical-record-form-title");
-    formTitle?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setEditingRecord(record);
+    setActiveView("create");
+    setShowDiagnostics(false);
+  };
+
+  const handleShowDiagnostics = () => {
+    setActiveView("view");
+    setShowDiagnostics(true);
+    setEditingRecord(null);
   };
 
   return (
-    <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="mt-8 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:rounded-2xl sm:p-6">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-2xl font-bold text-slate-900">
@@ -137,7 +129,7 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
         </div>
       )}
 
-      <div className="mt-6 rounded-2xl border border-slate-200 p-5">
+      <div className="mt-6 rounded-xl border border-slate-200 p-4 sm:rounded-2xl sm:p-5">
         {!selectedPatient && (
           <p className="text-sm text-slate-600">
             Selecciona un paciente para crear expediente y revisar sus
@@ -165,6 +157,7 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
                   onClick={() => {
                     setActiveView("create");
                     setShowDiagnostics(false);
+                  setEditingRecord(null);
                   }}
                   className="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
                 >
@@ -176,6 +169,7 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
                   onClick={() => {
                     setActiveView("view");
                     setShowDiagnostics(true);
+                  setEditingRecord(null);
                   }}
                   className="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
                 >
@@ -189,6 +183,8 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
                 <CreateMedicalRecordForm
                   user={user}
                   selectedPatientId={selectedPatient.id}
+                  editingRecord={editingRecord}
+                  onShowDiagnostics={handleShowDiagnostics}
                 />
               )}
 
