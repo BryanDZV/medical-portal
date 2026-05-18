@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    inlineCss: true,
+  },
   images: {
     qualities: [20, 50, 75, 100],
     formats: ["image/avif", "image/webp"],
