@@ -78,7 +78,7 @@ export function PatientAppointments({ user }: PatientAppointmentsProps) {
         </div>
       )}
 
-      <section className="mt-8 rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+      <section className="mt-8 rounded-xl bg-white p-4 shadow-sm border border-slate-200 sm:rounded-2xl sm:p-6">
       <h2 className="text-2xl font-bold text-slate-900">Mis citas</h2>
 
       <div className="mt-5 space-y-4">
@@ -127,7 +127,7 @@ export function PatientAppointments({ user }: PatientAppointmentsProps) {
                 {appointment.status !== "cancelled" && (
                   <button
                     onClick={() => setAppointmentToCancel(appointment)}
-                    className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white"
+                    className="w-full rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white sm:w-auto"
                   >
                     Cancelar cita
                   </button>
@@ -138,7 +138,7 @@ export function PatientAppointments({ user }: PatientAppointmentsProps) {
                     <button
                       type="button"
                       onClick={() => handleDeleteCancelledRequest(appointment.id)}
-                      className="rounded-lg bg-slate-700 px-4 py-2 text-sm font-semibold text-white"
+                      className="w-full rounded-lg bg-slate-700 px-4 py-2 text-sm font-semibold text-white sm:w-auto"
                     >
                       Eliminar solicitud
                     </button>
@@ -146,7 +146,7 @@ export function PatientAppointments({ user }: PatientAppointmentsProps) {
                     <button
                       type="button"
                       onClick={() => handleRequestAnotherSchedule(appointment)}
-                      className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white"
+                      className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white sm:w-auto"
                     >
                       Solicitar otro horario
                     </button>
