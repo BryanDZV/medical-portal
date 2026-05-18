@@ -12,7 +12,6 @@ export function Header() {
           <Image
             src={logoImg}
             alt="Logo del Portal Médico"
-            priority
             width={200}
             height={200}
             sizes="(min-width: 768px) 160px, 120px"
