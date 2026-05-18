@@ -50,6 +50,5 @@ export interface MedicalRecordFormContextType {
   canProceed: () => boolean;
   submit: () => Promise<void>;
   reset: () => void;
-  loadRecordForEdit: (record: MedicalRecord) => void;
   cancelEdit: () => void;
 }

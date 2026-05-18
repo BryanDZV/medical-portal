@@ -1,8 +1,33 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { mockSpecialtyServices } from "../../data/mockSpecialtyServices";
+import styles from "./ArticlesSection.module.css";
 
 export function ArticlesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { rootMargin: "100px" } // Inicia un poco antes de que sea visible
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
   return (
-    <section id="services" className="bg-white px-6 py-20">
+    <section ref={sectionRef} id="services" className="bg-white px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
           Nuestros servicios
@@ -19,12 +44,12 @@ export function ArticlesSection() {
         </p>
 
         <div className="mt-10 overflow-hidden">
-          <div className="flex w-max animate-specialties-scroll gap-6 pt-0 mt-5">
+          <div className={`flex w-max gap-6 pt-0 mt-5 motion-reduce:flex-wrap motion-reduce:w-auto ${isInView ? styles.specialtiesScroll : ""}`}>
             {[...mockSpecialtyServices, ...mockSpecialtyServices].map(
               (service, index) => (
                 <article
                   key={`${service.specialty}-${index}`}
-                  className="w-[320px] shrink-0 rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-sm"
+                  className="w-[320px] shrink-0 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm motion-safe:transition-transform motion-safe:duration-200 motion-safe:hover:-translate-y-0.5"
                 >
                   <h3 className="text-xl font-semibold text-slate-900">
                     {service.specialty}

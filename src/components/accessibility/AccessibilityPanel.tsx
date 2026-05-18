@@ -52,6 +52,7 @@ export function AccessibilityPanel() {
                     alt="Accesibilidad"
                     width={50}
                     height={50}
+                    priority
                     className="object-contain"
                 />
             </button>

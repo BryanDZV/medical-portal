@@ -9,8 +9,12 @@ import Link from "next/link";
 
 import { DoctorMetricsGrid } from "./DoctorMetricsGrid";
 import { GranularErrorBoundary } from "@/components/atoms/GranularErrorBoundary";
-import { ProfileEditModal } from "../ProfileEditModal";
+import dynamic from "next/dynamic";
 
+const ProfileEditModal = dynamic(
+  () => import("../ProfileEditModal").then((mod) => mod.ProfileEditModal),
+  { ssr: false }
+);
 import { Button } from "@/components/atoms/Button";
 import { NavBarForUsers } from "../../layout/NavBarForUsers";
 
@@ -23,15 +27,15 @@ export function DoctorDashboard({ user }: DoctorDashboardProps) {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   return (
-    <main className="min-h-screen bg-slate-100 px-6 py-10 pt-25">
-      <section className="mx-auto max-w-6xl">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-4xl font-bold text-slate-900">
+    <main className="min-h-screen bg-slate-100 px-4 py-10 pt-25 sm:px-6">
+      <section className="mx-auto w-full sm:max-w-6xl">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
             Bienvenido Dr. {user.name}
           </h1>
 
           {/* Botón abrir modal */}
-          <Button onClick={() => setIsProfileModalOpen(true)}>
+          <Button className="w-full sm:w-auto" onClick={() => setIsProfileModalOpen(true)}>
             Editar perfil
           </Button>
         </div>

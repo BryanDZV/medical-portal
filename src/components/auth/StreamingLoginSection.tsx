@@ -1,9 +1,8 @@
-import { LoginForm } from "@/components/auth/LoginForm";
+import dynamic from "next/dynamic";
 
-const STREAMING_DELAY_MS = 0;
+// Importación dinámica para separar el JS del cliente y evitar bloquear la renderización principal.
+const LoginForm = dynamic(() => import("@/components/auth/LoginForm").then((mod) => mod.LoginForm));
 
-export async function StreamingLoginSection() {
-  await new Promise((resolve) => setTimeout(resolve, STREAMING_DELAY_MS));
-
+export function StreamingLoginSection() {
   return <LoginForm />;
 }

@@ -12,11 +12,11 @@ export function Header() {
           <Image
             src={logoImg}
             alt="Logo del Portal Médico"
-            priority
             width={200}
             height={200}
             sizes="(min-width: 768px) 160px, 120px"
-            className="h-16 w-auto object-contain scale-200 origin-left"
+            priority
+            className="h-28 w-auto object-contain"
           />
         </Link>
 

@@ -4,10 +4,10 @@ export function HowToSection() {
     <section id="appointments" className="px-6 py-20 bg-slate-100">
       <div className="mx-auto max-w-6xl">
         <div className="pb-10">
-          <h2 className="mt-3 pb-5 text-4xl text-center font-bold text-[#4c5895]">
+          <h2 className="mt-3 pb-5 text-3xl text-center font-bold text-[#4c5895] sm:text-4xl">
             ¿Cómo solicitar una cita médica?
           </h2>
-          <p className="text-center ml-30 mr-30">
+          <p className="text-center max-w-3xl mx-auto leading-7 text-slate-600">
             Para registrase como paciente de nuestros hospitales debera mandar
             un correo a{" "}
             <Link
@@ -38,9 +38,8 @@ export function HowToSection() {
           </video>
         </div>
       </div>
-      <div className="flex justify-center items-center">
-        <div className="border-gray-300 border-b w-270 h-20 m-5 "></div>
-      </div>
+      {/* Divider */}
+      <div className="mx-auto max-w-6xl mt-20 border-t border-slate-200"></div>
     </section>
   );
 }

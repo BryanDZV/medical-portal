@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useAuthStore } from "@/store/useAuthStore";
 import { validateLoginForm, type LoginErrors } from "@/lib/auth-validation";
 
@@ -27,7 +28,9 @@ export function LoginForm() {
     }
   }, [hasHydrated, user, router]);
 
-  if (!hasHydrated) return null;
+  // Evitamos retornar null para que el servidor envíe el HTML del formulario (SSR).
+  // Esto mejora drásticamente métricas como LCP (Largest Contentful Paint) y FCP en Lighthouse.
+  const isFormDisabled = hasHydrated ? isBlocked : false;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,9 +65,8 @@ export function LoginForm() {
 
   return (
     <section className="relative flex min-h-screen items-center justify-center bg-slate-100 px-4">
-      <button
-        type="button"
-        onClick={() => router.push("/")}
+      <Link
+        href="/"
         className="absolute flex items-center left-6 top-6 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
       >
         <svg
@@ -82,7 +84,7 @@ export function LoginForm() {
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
         Volver al inicio
-      </button>
+      </Link>
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg"
@@ -104,7 +106,7 @@ export function LoginForm() {
               id="email"
               type="email"
               value={email}
-              disabled={isBlocked}
+              disabled={isFormDisabled}
               onChange={(event) => {
                 setEmail(event.target.value);
                 setErrors({});
@@ -130,7 +132,7 @@ export function LoginForm() {
               id="password"
               type="password"
               value={password}
-              disabled={isBlocked}
+              disabled={isFormDisabled}
               onChange={(event) => {
                 setPassword(event.target.value);
                 setErrors({});
@@ -152,7 +154,7 @@ export function LoginForm() {
 
           <button
             type="submit"
-            disabled={isBlocked}
+            disabled={isFormDisabled}
             className="w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
           >
             Acceder

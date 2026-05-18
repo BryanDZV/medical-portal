@@ -20,6 +20,7 @@ interface MedicalRecordFormProviderProps {
   children: ReactNode;
   user: User;
   selectedPatientId: string;
+  initialData?: MedicalRecord | null;
 }
 
 const EMPTY_DRAFT: MedicalRecordDraft = {
@@ -34,6 +35,7 @@ export function MedicalRecordFormProvider({
   children,
   user,
   selectedPatientId,
+  initialData,
 }: MedicalRecordFormProviderProps) {
   const createRecord = useMedicalRecordStore((state) => state.createRecord);
   const updateRecord = useMedicalRecordStore((state) => state.updateRecord);
@@ -42,34 +44,21 @@ export function MedicalRecordFormProvider({
   const patient = mockPatients.find((p) => p.id === selectedPatientId) || null;
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [draft, setDraft] = useState<MedicalRecordDraft>(EMPTY_DRAFT);
+  const [draft, setDraft] = useState<MedicalRecordDraft>(() => {
+    if (initialData) {
+      return {
+        patientId: initialData.patientId,
+        doctorId: initialData.doctorId,
+        diagnosis: initialData.diagnosis,
+        notes: initialData.notes,
+        prescriptions: initialData.prescriptions,
+      };
+    }
+    return EMPTY_DRAFT;
+  });
   const [lastSaved, setLastSaved] = useState<string>("");
   const [savingError, setSavingError] = useState<string>("");
-  const [editingRecordId, setEditingRecordId] = useState<string | null>(null);
-
-  // Listen for edit record event
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const customEvent = e as CustomEvent<MedicalRecord>;
-      const record = customEvent.detail;
-      if (record) {
-        setEditingRecordId(record.id);
-        setDraft({
-          patientId: record.patientId,
-          doctorId: record.doctorId,
-          diagnosis: record.diagnosis,
-          notes: record.notes,
-          prescriptions: record.prescriptions,
-        });
-        setCurrentStep(1);
-        setSavingError("");
-      }
-    };
-
-    window.addEventListener("medical-record:load-for-edit", handler);
-    return () =>
-      window.removeEventListener("medical-record:load-for-edit", handler);
-  }, []);
+  const editingRecordId = initialData?.id ?? null;
 
   // Auto-save con debounce
   useEffect(() => {
@@ -90,7 +79,7 @@ export function MedicalRecordFormProvider({
 
         setLastSaved(new Date().toLocaleTimeString());
         setSavingError("");
-      } catch (error) {
+      } catch {
         // Silenciosamente ignorar errores de validación parcial
       }
     }, 500);
@@ -138,11 +127,10 @@ export function MedicalRecordFormProvider({
       }
 
       setDraft(EMPTY_DRAFT);
-      setEditingRecordId(null);
       localStorage.removeItem(`medicalRecordDraft_${patient.id}`);
       setCurrentStep(1);
-      window.dispatchEvent(new Event("medical-record:reset"));
-    } catch (error) {
+      // Consider using a callback to notify parent of successful submission
+    } catch {
       setSavingError(
         "Error al validar el formulario. Verifica todos los campos.",
       );
@@ -153,25 +141,11 @@ export function MedicalRecordFormProvider({
     setDraft(EMPTY_DRAFT);
     setCurrentStep(1);
     setSavingError("");
-    setEditingRecordId(null);
-  };
-
-  const loadRecordForEdit = (record: MedicalRecord) => {
-    setEditingRecordId(record.id);
-    setDraft({
-      patientId: record.patientId,
-      doctorId: record.doctorId,
-      diagnosis: record.diagnosis,
-      notes: record.notes,
-      prescriptions: record.prescriptions,
-    });
-    setCurrentStep(1);
-    setSavingError("");
   };
 
   const cancelEdit = () => {
     reset();
-    window.dispatchEvent(new Event("medical-record:reset"));
+    // This should be handled by the parent component, likely by calling `onShowDiagnostics`
   };
 
   const value: MedicalRecordFormContextType = {
@@ -188,7 +162,6 @@ export function MedicalRecordFormProvider({
     canProceed,
     submit,
     reset,
-    loadRecordForEdit,
     cancelEdit,
   };
 

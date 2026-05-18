@@ -55,16 +55,16 @@ export function HomeMetricsSection({
           </h2>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
           {metrics.map((metric) => (
             <article
               key={metric.title}
-              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+              className="w-[85vw] max-w-[320px] shrink-0 snap-center rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:w-auto md:max-w-none"
             >
-              <h2 className="text-2xl pb-5 text-center  font-semibold text-slate-900">
-                {metric.prefix} <span className="text-sky-700"></span>{" "}
-              </h2>
-              <div className="mx-auto mb-5 flex h-54 w-54 items-center justify-center rounded-full bg-sky-100 text-4xl font-black text-sky-800 shadow-inner">
+              <h3 className="text-xl sm:text-2xl pb-4 sm:pb-5 text-center font-semibold text-slate-900">
+                {metric.prefix}
+              </h3>
+              <div className="mx-auto mb-5 flex h-32 w-32 sm:h-40 sm:w-40 lg:h-52 lg:w-52 items-center justify-center rounded-full bg-sky-100 text-3xl sm:text-4xl lg:text-5xl font-black text-sky-800 shadow-inner">
                 {metric.value}
               </div>
               <p className="mt-3 text-sm text-center leading-6 text-slate-600">
