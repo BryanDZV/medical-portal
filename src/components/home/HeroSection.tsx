@@ -10,9 +10,8 @@ export function HeroSection() {
         src="/Header-image_1.webp"
         alt="Fondo del portal médico"
         fill
-        priority
-        fetchPriority="high"
         quality={50}
+        loading="lazy"
         className="object-cover object-center -z-10"
         sizes="100vw"
       />
