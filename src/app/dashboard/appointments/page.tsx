@@ -22,10 +22,10 @@ export default function DashboardAppointmentsPage() {
   if (!user) return null;
 
   return (
-    <main className="min-h-screen bg-slate-100 px-6 py-10 pt-25">
-      <section className="mx-auto max-w-6xl">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-4xl font-bold text-slate-900">
+    <main className="min-h-screen bg-slate-100 px-4 py-10 pt-25 sm:px-6">
+      <section className="mx-auto w-full sm:max-w-6xl">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
             {user.role === "doctor" ? "Citas de pacientes" : "Mis citas"}
           </h1>
         </div>
