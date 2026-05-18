@@ -45,7 +45,7 @@ export function PrescriptionsStep() {
             </p>
           )}
           {draft.prescriptions.map((prescription, index) => (
-            <div key={index} className="flex gap-2">
+            <div key={index} className="flex items-center gap-2">
               <input
                 id={`medical-record-prescription-${index}`}
                 type="text"
@@ -56,13 +56,13 @@ export function PrescriptionsStep() {
                 placeholder={`Medicamento ${index + 1}`}
                 maxLength={200}
                 aria-label={`Prescripción ${index + 1}`}
-                className="flex-1 rounded-xl border border-slate-300 px-4 py-3 outline-none transition motion-safe:duration-200 focus:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                className="min-w-0 flex-1 rounded-xl border border-slate-300 px-4 py-3 outline-none transition motion-safe:duration-200 focus:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
               />
               <button
                 type="button"
                 onClick={() => handleRemovePrescription(index)}
                 aria-label={`Eliminar prescripción ${index + 1}`}
-                className="rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white transition motion-safe:duration-200 hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
+                className="shrink-0 rounded-lg bg-red-600 px-4 py-3 text-sm font-semibold text-white transition motion-safe:duration-200 hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
               >
                 Eliminar
               </button>
