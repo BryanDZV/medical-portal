@@ -33,8 +33,8 @@ export function PatientMedicalRecords({ user }: PatientMedicalRecordsProps) {
           const doctor = mockDoctors.find((doctor) => doctor.id === record.doctorId);
 
           return (
-            <article key={record.id} className="rounded-xl border border-slate-200 p-4">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <article key={record.id} className="rounded-xl border border-slate-200 p-4 min-w-0">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between min-w-0">
                 <p className="text-sm font-semibold text-slate-500">
                   {new Date(record.createdAt).toLocaleString()} · Dr. {doctor?.name ?? "Sin asignar"}
                 </p>
@@ -46,10 +46,13 @@ export function PatientMedicalRecords({ user }: PatientMedicalRecordsProps) {
                   Descargar expediente
                 </button>
               </div>
-              <h3 className="mt-2 text-lg font-bold text-slate-900">{record.diagnosis}</h3>
-              <p className="mt-2 text-sm text-slate-700">{record.notes}</p>
-              <p className="mt-2 text-sm text-slate-600">
-                <span className="font-semibold">Prescripción:</span> {record.prescriptions.join(", ")}
+              <h3 className="mt-2 text-lg font-bold text-slate-900 wrap-break-word">{record.diagnosis}</h3>
+              <p className="mt-2 text-sm text-slate-700 whitespace-normal wrap-break-word overflow-wrap-anywhere">
+                {record.notes}
+              </p>
+              <p className="mt-2 text-sm text-slate-600 wrap-break-word">
+                <span className="font-semibold">Prescripción:</span>{' '}
+                <span className="wrap-break-word">{record.prescriptions.join(", ")}</span>
               </p>
             </article>
           );

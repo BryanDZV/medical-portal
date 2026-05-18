@@ -1,4 +1,4 @@
-import { DashboardPageClient } from "@/components/dashboard/DashboardPageClient";
+import { DashboardPageClient } from "@/components/dashboard/patients/DashboardPageClient";
 
 const STREAMING_DELAY_MS = 1000;
 
