@@ -2,11 +2,11 @@
 
 "use client";
 
+import { useState } from "react";
 import type { User } from "@/types/user.types";
 import { mockDoctors } from "@/data/mockDoctors";
 import { mockPatients } from "@/data/mockPatients";
 import { useMedicalRecordStore } from "@/store/useMedicalRecordStore";
-import { generateMedicalRecordPdf } from "@/lib/pdf/generateMedicalRecordPdf";
 
 interface PatientMedicalRecordsProps {
   user: User;
@@ -15,6 +15,7 @@ interface PatientMedicalRecordsProps {
 export function PatientMedicalRecords({ user }: PatientMedicalRecordsProps) {
   const records = useMedicalRecordStore((state) => state.records);
   const patient = mockPatients.find((patient) => patient.userId === user.id);
+  const [downloadingRecordId, setDownloadingRecordId] = useState<string | null>(null);
 
   if (!patient) return null;
 
@@ -40,10 +41,23 @@ export function PatientMedicalRecords({ user }: PatientMedicalRecordsProps) {
                 </p>
                 <button
                   type="button"
-                  onClick={() => generateMedicalRecordPdf({ record, patient, doctor })}
-                  className="inline-flex w-full shrink-0 items-center justify-center rounded-lg border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-800 transition hover:bg-sky-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 sm:w-auto"
+                  onClick={async () => {
+                    setDownloadingRecordId(record.id);
+                    try {
+                      const { generateMedicalRecordPdf } = await import(
+                        "@/lib/pdf/generateMedicalRecordPdf"
+                      );
+                      await generateMedicalRecordPdf({ record, patient, doctor });
+                    } finally {
+                      setDownloadingRecordId(null);
+                    }
+                  }}
+                  disabled={downloadingRecordId === record.id}
+                  className="inline-flex w-full shrink-0 items-center justify-center rounded-lg border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-800 transition hover:bg-sky-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
                 >
-                  Descargar expediente
+                  {downloadingRecordId === record.id
+                    ? "Generando..."
+                    : "Descargar expediente"}
                 </button>
               </div>
               <h3 className="mt-2 text-lg font-bold text-slate-900 wrap-break-word">{record.diagnosis}</h3>
