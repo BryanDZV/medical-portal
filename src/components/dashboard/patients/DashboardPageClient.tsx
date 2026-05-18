@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { DoctorDashboard } from "@/components/dashboard/DoctorDashboard";
-import { PatientDashboard } from "@/components/dashboard/PatientDashboard";
+import { DoctorDashboard } from "@/components/dashboard/doctor/DoctorDashboard";
+import { PatientDashboard } from "@/components/dashboard/patients/PatientDashboard";
 
 export function DashboardPageClient() {
   const router = useRouter();

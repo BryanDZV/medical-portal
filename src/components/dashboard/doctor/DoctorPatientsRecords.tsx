@@ -6,8 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import type { MedicalRecord } from "@/types/medical-record.types";
 import type { User } from "@/types/user.types";
 import { SearchBar } from "@/components/molecules/SearchBar";
-import { CreateMedicalRecordForm } from "@/components/dashboard/CreateMedicalRecordForm";
-import { DiagnosticsTable } from "@/components/dashboard/DiagnosticsTable";
+import { CreateMedicalRecordForm } from "@/components/dashboard/doctor/CreateMedicalRecordForm";
+import { DiagnosticsTable } from "@/components/dashboard/doctor/DiagnosticsTable";
 import { mockDoctors } from "@/data/mockDoctors";
 import { mockPatients } from "@/data/mockPatients";
 import { useMedicalRecordStore } from "@/store/useMedicalRecordStore";
@@ -25,9 +25,16 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
 
   const [selectedPatientId, setSelectedPatientId] = useState<string>("");
   const [showDiagnostics, setShowDiagnostics] = useState(false);
+  const [activeView, setActiveView] = useState<"none" | "create" | "view">(
+    "none",
+  );
 
   useEffect(() => {
-    const handler = () => setShowDiagnostics(true);
+    const handler = () => {
+      setShowDiagnostics(true);
+      setActiveView("view");
+    };
+
     window.addEventListener("medical-record:show-diagnostics", handler);
     return () =>
       window.removeEventListener("medical-record:show-diagnostics", handler);
@@ -135,6 +142,11 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
             Selecciona un paciente para crear expediente y revisar sus
             diagnósticos.
           </p>
+        )}
+        <p className="text-sm text-slate-600">
+          Selecciona un paciente para crear expediente y revisar sus
+          diagnósticos.
+        </p>
         )}
 
         {selectedPatient && (
