@@ -61,9 +61,9 @@ export function HomeMetricsSection({
               key={metric.title}
               className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
             >
-              <p className="text-2xl pb-5 text-center  font-semibold text-slate-900">
+              <h2 className="text-2xl pb-5 text-center  font-semibold text-slate-900">
                 {metric.prefix} <span className="text-sky-700"></span>{" "}
-              </p>
+              </h2>
               <div className="mx-auto mb-5 flex h-54 w-54 items-center justify-center rounded-full bg-sky-100 text-4xl font-black text-sky-800 shadow-inner">
                 {metric.value}
               </div>

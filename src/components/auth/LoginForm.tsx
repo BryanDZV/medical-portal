@@ -50,9 +50,8 @@ export function LoginForm() {
 
     if (!isValidLogin) {
       setErrors({
-        general: `Credenciales incorrectas. Intentos fallidos: ${
-          failedAttempts + 1
-        }/3`,
+        general: `Credenciales incorrectas. Intentos fallidos: ${failedAttempts + 1
+          }/3`,
       });
       return;
     }
@@ -94,11 +93,15 @@ export function LoginForm() {
 
         <div className="mt-8 space-y-5">
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label
+              htmlFor="email"
+              className="mb-2 block text-sm font-medium text-slate-700"
+            >
               Email
             </label>
 
             <input
+              id="email"
               type="email"
               value={email}
               disabled={isBlocked}
@@ -116,11 +119,15 @@ export function LoginForm() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label
+              htmlFor="password"
+              className="mb-2 block text-sm font-medium text-slate-700"
+            >
               Contraseña
             </label>
 
             <input
+              id="password"
               type="password"
               value={password}
               disabled={isBlocked}

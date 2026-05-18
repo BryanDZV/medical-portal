@@ -26,8 +26,7 @@ export function Header() {
           <Link href="/#services" prefetch={false}>Servicios</Link>
           <Link href="/#articles" prefetch={false}>Artículos</Link>
           <Link href="/#appointments" prefetch={false}>Instrucciones para citas</Link>
-          <Link href="/login" prefetch={false}>Citas</Link>
-        
+
         </nav>
 
         <Button asLink="/login" prefetch={false}>Acceder</Button>

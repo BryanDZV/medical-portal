@@ -40,7 +40,7 @@
 
 html {
   scroll-behavior: smooth;
-} 
+}
 
 body {
   background: var(--color-background);
@@ -60,4 +60,64 @@ body {
 
 .animate-specialties-scroll {
   animation: specialties-scroll 100s linear infinite;
+}
+
+{/* Accesibilidad */}
+
+:root {
+  --font-scale: 1;
+  --text-contrast: 1;
+}
+
+html {
+  font-size: calc(16px * var(--font-scale));
+  transition: font-size 0.2s ease;
+}
+
+.a11y-contrast p,
+.a11y-contrast h1,
+.a11y-contrast h2,
+.a11y-contrast h3,
+.a11y-contrast h4,
+.a11y-contrast span,
+.a11y-contrast label {
+  color: #020617 !important;
+  font-weight: 700;
+}
+
+.a11y-contrast input,
+.a11y-contrast textarea,
+.a11y-contrast select {
+  border-color: #1e3a8a !important;
+}
+
+.a11y-contrast .bg-primary,
+.a11y-contrast button.bg-primary,
+.a11y-contrast a.bg-primary,
+.a11y-contrast .bg-blue-600,
+.a11y-contrast .bg-blue-700,
+.a11y-contrast button.bg-blue-600,
+.a11y-contrast a.bg-blue-600,
+.a11y-contrast button.bg-blue-700,
+.a11y-contrast a.bg-blue-700 {
+  color: #ffffff !important;
+}
+
+.a11y-slider {
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: #334155;
+  outline: none;
+}
+
+.a11y-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
 }

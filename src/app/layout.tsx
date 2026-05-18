@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AccessibilityPanel } from "@/components/accessibility/AccessibilityPanel";
 
 /* Carga fuentes de forma optimizada con next/font*/
 const geistSans = Geist({
@@ -29,14 +30,15 @@ export default function RootLayout({
 }>) {
   return (
     /* Idioma: accesibilidad, lectores de pantalla, SEO, semántica correcta del documento*/
-    <html 
-      lang="es" 
-      className={`${geistSans.variable} ${geistMono.variable}`} 
+    <html
+      lang="es"
+      className={`${geistSans.variable} ${geistMono.variable}`}
       data-scroll-behavior="smooth"
     >
       <body className="min-h-screen flex flex-col bg-background text-foreground">
         <main className="flex-1">{children}</main>
 
+        <AccessibilityPanel />
       </body>
     </html>
   );
