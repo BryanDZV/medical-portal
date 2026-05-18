@@ -25,9 +25,9 @@ export function StatCard({
                         {title}
                     </p>
 
-                    <p className="mt-2 text-3xl font-bold text-foreground">
+                    <h2 className="mt-2 text-3xl font-bold text-foreground">
                         {value}
-                    </p>
+                    </h2>
 
                     {description && (
                         <p className="mt-1 text-sm text-muted">

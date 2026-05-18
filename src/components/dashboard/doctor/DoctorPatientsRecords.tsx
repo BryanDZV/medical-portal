@@ -32,8 +32,8 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
 
 
   const patientFilter = useCallback(
-  (patient: (typeof mockPatients)[number], normalizedQuery: string) =>
-    patient.name.toLocaleLowerCase("es-ES").includes(normalizedQuery),
+    (patient: (typeof mockPatients)[number], normalizedQuery: string) =>
+      patient.name.toLocaleLowerCase("es-ES").includes(normalizedQuery),
     [],
   );
 
@@ -78,13 +78,13 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
             informes acumulables.
           </p>
         </div>
-        <div className="w-full sm:max-w-sm">
-          <SearchBar
-            value={query}
-            onChange={setQuery}
-            placeholder="Buscar paciente por nombre"
-          />
-        </div>
+        <SearchBar
+          id="patient-search"
+          label="Buscar paciente"
+          value={query}
+          onChange={setQuery}
+          placeholder="Buscar paciente por nombre"
+        />
       </div>
 
       {normalizedQuery && (
@@ -105,11 +105,10 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
                     setSelectedPatientId(patient.id);
                     setShowDiagnostics(false);
                   }}
-                className={`min-w-65 shrink-0 rounded-xl border p-4 text-left transition ${
-                    selectedPatientId === patient.id
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-slate-200 hover:bg-slate-50"
-                  }`}
+                  className={`min-w-65 shrink-0 rounded-xl border p-4 text-left transition ${selectedPatientId === patient.id
+                    ? "border-blue-500 bg-blue-50"
+                    : "border-slate-200 hover:bg-slate-50"
+                    }`}
                 >
                   <p className="font-semibold text-slate-900">{patient.name}</p>
                   <p className="text-sm text-slate-600">
@@ -163,7 +162,6 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
                 >
                   Crear expediente
                 </button>
-
                 <button
                   type="button"
                   onClick={() => {
@@ -186,6 +184,7 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
                   editingRecord={editingRecord}
                   onShowDiagnostics={handleShowDiagnostics}
                 />
+
               )}
 
               {activeView === "view" && showDiagnostics && (
@@ -203,3 +202,5 @@ export function DoctorPatientsRecords({ user }: DoctorPatientsRecordsProps) {
     </section>
   );
 }
+
+

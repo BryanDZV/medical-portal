@@ -35,7 +35,6 @@ export function HeroSection() {
 
           <div className="flex gap-4">
             <Button asLink="/login" prefetch={false}>Acceder al portal</Button>
-
             <Button asLink="/#services" variant="secondary" prefetch={false}>Ver servicios</Button>
           </div>
         </div>

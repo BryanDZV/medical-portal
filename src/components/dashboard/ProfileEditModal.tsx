@@ -139,11 +139,15 @@ export function ProfileEditModal({
 
                 <section className="grid grid-cols-1 gap-5">
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-700">
+                        <label
+                            htmlFor="doctor-name"
+                            className="text-sm font-semibold text-slate-700"
+                        >
                             Nombre
                         </label>
 
                         <Input
+                            id="doctor-name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Nombre completo"
@@ -151,11 +155,15 @@ export function ProfileEditModal({
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-700">
+                        <label
+                            htmlFor="doctor-email"
+                            className="text-sm font-semibold text-slate-700"
+                        >
                             Email
                         </label>
 
                         <Input
+                            id="doctor-email"
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
