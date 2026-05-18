@@ -34,7 +34,6 @@ export function Modal({
                     border border-white/40
                     bg-white
                     shadow-2xl
-                    transition-all duration-300
         `}
             >
                 <header className="flex items-center justify-between border-b border-slate-100 px-8 py-6">
@@ -49,7 +48,7 @@ export function Modal({
                         type="button"
                         onClick={onClose}
                         aria-label="Cerrar modal"
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-xl text-slate-500 shadow-md transition hover:bg-slate-100 hover:text-slate-900"
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-xl text-slate-500 shadow-md transition-colors hover:bg-slate-100 hover:text-slate-900"
                     >
                         ×
                     </button>

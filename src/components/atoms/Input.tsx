@@ -17,7 +17,7 @@ export function Input({
                 py-2
                 text-sm
                 outline-none
-                transition-all
+                transition-colors
                 duration-200
                 focus:border-primary
                 focus:ring-2

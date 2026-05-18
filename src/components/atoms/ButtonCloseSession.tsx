@@ -17,7 +17,7 @@ export function ButtonCloseSession() {
       <button
         type="button"
         onClick={handleLogout}
-        className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-lg"
+        className="rounded-xl bg-slate-900 px-2.5 py-1.5 text-[11px] font-semibold text-white shadow-lg sm:px-3 sm:py-2 sm:text-xs md:text-sm"
       >
         Cerrar sesión
       </button>
