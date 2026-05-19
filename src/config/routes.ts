@@ -20,16 +20,22 @@ export const publicRoutes = [
 
 // Ruta por defecto por rol tras autenticarse
 export const defaultRoleRoute: Record<Role, string> = {
-  admin: "/admin",
-  medico: "/dashboard/medico",
-  paciente: "/dashboard/paciente",
+  admin: "/dashboard",
+  doctor: "/dashboard",
+  patient: "/dashboard",
 };
 
 // Diccionario de acceso basado en roles
 export const roleRoutes: Record<Role, string[]> = {
-  admin: ["/admin", "/dashboard", "/dashboard/medico", "/dashboard/paciente"],
-  medico: ["/dashboard/medico"],
-  paciente: ["/dashboard/paciente"],
+  admin: [
+    "/dashboard",
+    "/dashboard/appointments",
+    "/dashboard/patients",
+    "/dashboard/request",
+    "/dashboard/records",
+  ],
+  doctor: ["/dashboard", "/dashboard/appointments", "/dashboard/patients"],
+  patient: ["/dashboard", "/dashboard/appointments", "/dashboard/request", "/dashboard/records"],
 };
 
 const matchesRoute = (path: string, route: string) => {

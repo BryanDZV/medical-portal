@@ -9,12 +9,13 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 import {
   defaultRoleRoute,
   isPublicRoute,
   isRouteAllowedForRole,
 } from "@/config/routes";
-import { verifySessionToken } from "@/lib/auth/jwt";
+import type { Role } from "@/types/auth";
 
 const createLoginUrl = (request: NextRequest, pathname: string) => {
   const loginUrl = new URL("/login", request.url);
@@ -25,50 +26,35 @@ const createLoginUrl = (request: NextRequest, pathname: string) => {
   return loginUrl;
 };
 
-const invalidTokenResponse = (request: NextRequest) => {
-  const response = NextResponse.redirect(new URL("/login", request.url));
-  response.cookies.delete("session_token");
-  return response;
-};
+const authSecret =
+  process.env.NEXTAUTH_SECRET ?? process.env.JWT_SECRET_KEY ?? "medical-portal-dev-secret";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const sessionToken = request.cookies.get("session_token")?.value;
+  const token = await getToken({ req: request, secret: authSecret });
 
   // 1. Manejo de rutas públicas
   if (isPublicRoute(pathname)) {
     // Si está en /login y tiene sesión válida, redirige a su home por rol
-    if (sessionToken && pathname === "/login") {
-      const user = await verifySessionToken(sessionToken);
+    if (token && pathname === "/login") {
+      const role = token.role as Role | undefined;
 
-      if (!user) {
-        const response = NextResponse.next();
-        response.cookies.delete("session_token");
-        return response;
+      if (role && defaultRoleRoute[role]) {
+        return NextResponse.redirect(new URL(defaultRoleRoute[role], request.url));
       }
-
-      return NextResponse.redirect(
-        new URL(defaultRoleRoute[user.role], request.url),
-      );
     }
 
     return NextResponse.next();
   }
 
   // 2. Bloqueo si no hay token en ruta protegida
-  if (!sessionToken) {
+  if (!token) {
     return NextResponse.redirect(createLoginUrl(request, pathname));
   }
 
-  // 3. Verificación de identidad
-  const user = await verifySessionToken(sessionToken);
-
-  if (!user) {
-    return invalidTokenResponse(request);
-  }
-
-  // 4. Verificación de Autorización (RBAC)
-  const hasAccess = isRouteAllowedForRole(user.role, pathname);
+  // 3. Verificación de Autorización (RBAC)
+  const role = token.role as Role | undefined;
+  const hasAccess = role ? isRouteAllowedForRole(role, pathname) : false;
 
   if (!hasAccess) {
     return NextResponse.redirect(new URL("/acceso-denegado", request.url));
