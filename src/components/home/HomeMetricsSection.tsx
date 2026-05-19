@@ -1,5 +1,9 @@
+"use client";
+
 import { Container } from "@/components/atoms/Container";
 import { mockDoctors } from "@/data/mockDoctors";
+import { mockPatients } from "@/data/mockPatients";
+import { useMedicalRecordStore } from "@/store/useMedicalRecordStore";
 
 const STATIC_FACILITIES = 10;
 
@@ -14,7 +18,12 @@ export function HomeMetricsSection({
   initialProfessionalSpecialties,
   initialFacilities = STATIC_FACILITIES,
 }: HomeMetricsSectionProps) {
-  const attendedPatients = initialPatientsAttended;
+  const records = useMedicalRecordStore((state) => state.records);
+  const hasHydrated = useMedicalRecordStore((state) => state.hasHydrated);
+
+  const attendedPatients = hasHydrated
+    ? new Set(records.map((record) => record.patientId)).size
+    : initialPatientsAttended;
 
   const professionalSpecialties =
     initialProfessionalSpecialties ??
@@ -22,12 +31,14 @@ export function HomeMetricsSection({
       mockDoctors.map((doctor) => doctor.specialty.trim()).filter(Boolean),
     ).size;
 
+  const registeredPatients = mockPatients.length;
+
   const metrics = [
     {
       value: attendedPatients,
       title: "pacientes atendidos",
       prefix: "Más de",
-      description: "Expedientes médicos.",
+      description: "expedientes médicos realizados.",
     },
     {
       value: professionalSpecialties,
@@ -40,6 +51,12 @@ export function HomeMetricsSection({
       title: "instalaciones",
       prefix: "Disponemos de",
       description: "Instalaciones médicas a alcance del paciente.",
+    },
+    {
+      value: registeredPatients,
+      title: "pacientes registrados",
+      prefix: "Más de",
+      description: "pacientes que cuentan con nosotros cada día.",
     },
   ];
 
@@ -55,7 +72,7 @@ export function HomeMetricsSection({
           </h2>
         </div>
 
-        <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
+        <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-2 xl:grid-cols-4 md:overflow-visible md:pb-0">
           {metrics.map((metric) => (
             <article
               key={metric.title}

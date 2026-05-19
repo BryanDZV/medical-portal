@@ -171,4 +171,11 @@ export const mockUsers: User[] = [
     password: "Doctor123!",
     role: "doctor",
   },
+  {
+    id: "user-25",
+    name: "José Martín",
+    email: "monica.doctor@clinic.com",
+    password: "Poctor123!",
+    role: "patient"
+  }
 ];
