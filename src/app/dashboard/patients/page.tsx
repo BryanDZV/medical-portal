@@ -18,7 +18,7 @@ export default function DashboardPatientsPage() {
     }
 
     if (status === "authenticated" && user?.role !== "doctor") {
-      router.push("/dashboard");
+      router.push("/acceso-denegado");
     }
   }, [router, status, user?.role]);
 
