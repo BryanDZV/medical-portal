@@ -1,4 +1,4 @@
-import hospitalLogo from "@/assets/logo-remove.webp";
+import hospitalLogo from "@/assets/logo-remove.png";
 import type { Doctor } from "@/types/doctor.types";
 import type { MedicalRecord } from "@/types/medical-record.types";
 import type { Patient } from "@/types/patient.types";
@@ -105,7 +105,7 @@ export async function generateMedicalRecordPdf({
 
   // Cabecera del centro
   if (logo) {
-    pdf.addImage(logo, "WEBP", 20, y, 42, 40, undefined, "FAST");
+    pdf.addImage(logo, "PNG", 20, y, 42, 40, undefined, "FAST");
   }
 
   pdf.setFont("helvetica", "bold");
