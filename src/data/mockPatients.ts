@@ -29,4 +29,11 @@ export const mockPatients: Patient[] = [
     age: 22,
     phone: "+34 600 777 888",
   },
+  {
+    id: "patient-5",
+    userId: "user-8",
+    name: "José Martín",
+    age: 57,
+    phone: "+34 600 777 777",
+  }
 ];
