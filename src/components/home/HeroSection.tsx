@@ -2,6 +2,7 @@ import { Container } from "@/components/atoms/Container";
 import { Button } from "@/components/atoms/Button";
 import { Header } from "../layout/Header";
 import Image from "next/image";
+import { HomeAuthActions } from "../layout/HomeAuthActions";
 
 export function HeroSection() {
   return (
@@ -34,7 +35,7 @@ export function HeroSection() {
           </p> 
 
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-start">
-            <Button asLink="/login" prefetch={false}>Acceder al portal</Button>
+            <HomeAuthActions />
             <Button asLink="/#services" variant="secondary" prefetch={false}>Ver servicios</Button>
           </div>
         </div>

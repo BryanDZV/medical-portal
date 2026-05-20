@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/atoms/Container";
-import { Button } from "@/components/atoms/Button";
 import logoImg from "@/assets/logo-remove.webp";
+import { HomeAuthActions } from "@/components/layout/HomeAuthActions";
 
 export function Header() {
   return (
@@ -29,7 +29,7 @@ export function Header() {
 
         </nav>
 
-        <Button asLink="/login" prefetch={false}>Acceder</Button>
+        <HomeAuthActions />
       </Container>
     </header>
   );

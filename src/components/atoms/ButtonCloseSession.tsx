@@ -1,14 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/useAuthStore";
+import { signOut } from "next-auth/react";
 
 export function ButtonCloseSession() {
   const router = useRouter();
-  const logout = useAuthStore((state) => state.logout);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
     router.push("/login");
   };
 

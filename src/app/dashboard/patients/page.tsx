@@ -2,27 +2,27 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useSession } from "next-auth/react";
 import { NavBarForUsers } from "@/components/layout/NavBarForUsers";
 import { DoctorPatientsRecords } from "@/components/dashboard/doctor/DoctorPatientsRecords";
 
 export default function DashboardPatientsPage() {
   const router = useRouter();
-  const user = useAuthStore((state) => state.user);
-  const hasHydrated = useAuthStore((state) => state.hasHydrated);
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
   useEffect(() => {
-    if (hasHydrated && !user) {
+    if (status === "unauthenticated") {
       router.push("/login");
       return;
     }
 
-    if (hasHydrated && user?.role !== "doctor") {
-      router.push("/dashboard");
+    if (status === "authenticated" && user?.role !== "doctor") {
+      router.push("/acceso-denegado");
     }
-  }, [hasHydrated, user, router]);
+  }, [router, status, user?.role]);
 
-  if (!hasHydrated) return null;
+  if (status === "loading") return null;
   if (!user) return null;
   if (user.role !== "doctor") return null;
 

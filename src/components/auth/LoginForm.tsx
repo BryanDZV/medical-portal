@@ -5,42 +5,30 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuthStore } from "@/store/useAuthStore";
+import { signIn, useSession } from "next-auth/react";
 import { validateLoginForm, type LoginErrors } from "@/lib/auth-validation";
 
 export function LoginForm() {
   const router = useRouter();
 
-  const user = useAuthStore((state) => state.user);
-  const hasHydrated = useAuthStore((state) => state.hasHydrated);
-  const login = useAuthStore((state) => state.login);
-  const failedAttempts = useAuthStore((state) => state.failedAttempts);
-  const isBlocked = useAuthStore((state) => state.isBlocked);
+  const { status } = useSession();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [errors, setErrors] = useState<LoginErrors>({});
 
   useEffect(() => {
-    if (hasHydrated && user) {
-      router.push("/dashboard");
+    if (status === "authenticated") {
+      router.replace("/dashboard");
     }
-  }, [hasHydrated, user, router]);
+  }, [router, status]);
 
-  // Evitamos retornar null para que el servidor envíe el HTML del formulario (SSR).
-  // Esto mejora drásticamente métricas como LCP (Largest Contentful Paint) y FCP en Lighthouse.
-  const isFormDisabled = hasHydrated ? isBlocked : false;
+  const isFormDisabled = isSubmitting || status === "loading";
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (isBlocked) {
-      setErrors({
-        general: "Cuenta bloqueada temporalmente por demasiados intentos",
-      });
-      return;
-    }
 
     const validationErrors = validateLoginForm(email, password);
 
@@ -49,18 +37,26 @@ export function LoginForm() {
       return;
     }
 
-    const isValidLogin = login(email, password);
+    setIsSubmitting(true);
 
-    if (!isValidLogin) {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+      callbackUrl: "/dashboard",
+    });
+
+    setIsSubmitting(false);
+
+    if (!result || result.error) {
       setErrors({
-        general: `Credenciales incorrectas. Intentos fallidos: ${failedAttempts + 1
-          }/3`,
+        general: "Credenciales incorrectas. Revisa el email y la contraseña.",
       });
       return;
     }
 
     setErrors({});
-    router.push("/dashboard");
+    router.replace(result.url ?? "/dashboard");
   };
 
   return (

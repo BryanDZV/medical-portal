@@ -2,22 +2,22 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useSession } from "next-auth/react";
 import { DoctorDashboard } from "@/components/dashboard/doctor/DoctorDashboard";
 import { PatientDashboard } from "@/components/dashboard/patients/PatientDashboard";
 
 export function DashboardPageClient() {
   const router = useRouter();
-  const user = useAuthStore((state) => state.user);
-  const hasHydrated = useAuthStore((state) => state.hasHydrated);
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
   useEffect(() => {
-    if (hasHydrated && !user) {
+    if (status === "unauthenticated") {
       router.push("/login");
     }
-  }, [hasHydrated, user, router]);
+  }, [router, status]);
 
-  if (!hasHydrated) return null;
+  if (status === "loading") return null;
   if (!user) return null;
 
   return (
