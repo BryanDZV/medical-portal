@@ -7,7 +7,7 @@ import { HomeAuthActions } from "@/components/layout/HomeAuthActions";
 export function Header() {
   return (
     <header className="fixed left-0 top-0 z-50 w-full bg-white/95 border-b border-white/30">
-      <Container className="flex h-16 items-center justify-between">
+      <Container className="flex h-16 items-center justify-between gap-2 sm:h-20">
         <Link href="/" className="text-xl font-bold text-sky-700 mt-1">
           <Image
             src={logoImg}
