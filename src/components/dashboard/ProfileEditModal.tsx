@@ -12,22 +12,24 @@ type ProfileEditModalProps = {
     onClose: () => void;
     initialName: string;
     initialEmail: string;
+    profileKey: string;
 };
 
-const PROFILE_IMAGE_KEY = "profile-image";
+const PROFILE_IMAGE_UPDATED_EVENT = "profile-image-updated";
 
 export function ProfileEditModal({
     isOpen,
     onClose,
     initialName,
     initialEmail,
+    profileKey,
 }: ProfileEditModalProps) {
     const [name, setName] = useState(initialName);
     const [email, setEmail] = useState(initialEmail);
 
     const [previewImage, setPreviewImage] = useState<string | null>(() => {
         if (typeof window === "undefined") return null;
-        return localStorage.getItem(PROFILE_IMAGE_KEY);
+        return localStorage.getItem(profileKey);
     });
 
     const initials = name
@@ -50,7 +52,8 @@ export function ProfileEditModal({
             const imageBase64 = reader.result as string;
 
             setPreviewImage(imageBase64);
-            localStorage.setItem(PROFILE_IMAGE_KEY, imageBase64);
+            localStorage.setItem(profileKey, imageBase64);
+            window.dispatchEvent(new Event(PROFILE_IMAGE_UPDATED_EVENT));
             toast.success("Imagen actualizada");
         };
 
@@ -59,7 +62,8 @@ export function ProfileEditModal({
 
     const handleRemoveImage = () => {
         setPreviewImage(null);
-        localStorage.removeItem(PROFILE_IMAGE_KEY);
+        localStorage.removeItem(profileKey);
+        window.dispatchEvent(new Event(PROFILE_IMAGE_UPDATED_EVENT));
         toast.success("Imagen eliminada");
     };
 
