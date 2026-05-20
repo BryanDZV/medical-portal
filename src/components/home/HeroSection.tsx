@@ -34,9 +34,17 @@ export function HeroSection() {
             gestión de citas e información clínica según rol.
           </p> 
 
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-start">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
             <HomeAuthActions />
-            <Button asLink="/#services" variant="secondary" prefetch={false}>Ver servicios</Button>
+            <Button
+              asLink="/#services"
+              variant="secondary"
+              size="sm"
+              prefetch={false}
+              className="inline-flex w-auto items-center justify-center whitespace-nowrap px-3 py-1.5 text-[11px] sm:px-4 sm:py-2 sm:text-sm"
+            >
+              Ver servicios
+            </Button>
           </div>
         </div>
       </Container>
