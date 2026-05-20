@@ -8,6 +8,7 @@ import { NavBarForUsers } from "../../layout/NavBarForUsers";
 import { PatientMetricsGrid } from "./PatientMetricsGrid";
 import { GranularErrorBoundary } from "@/components/atoms/GranularErrorBoundary";
 import dynamic from "next/dynamic";
+import { ProfileAvatar } from "../ProfileAvatar";
 
 const ProfileEditModal = dynamic(
   () => import("../ProfileEditModal").then((mod) => mod.ProfileEditModal),
@@ -20,16 +21,31 @@ interface PatientDashboardProps {
   user: User;
 }
 
+const getProfileImageKey = (userId: string) => `profile-image:${userId}`;
+
 export function PatientDashboard({ user }: PatientDashboardProps) {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-10 pt-25 sm:px-6">
       <section className="mx-auto w-full sm:max-w-6xl">
-        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-            Bienvenido {user.name}
-          </h1>
+        <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <div className="flex items-center gap-4">
+            <ProfileAvatar
+              name={user.name}
+              profileKey={getProfileImageKey(user.id)}
+              className="h-16 w-16 sm:h-20 sm:w-20"
+            />
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+                Mi perfil
+              </p>
+              <h1 className="text-2xl font-bold text-slate-900 sm:text-4xl">
+                Bienvenido {user.name}
+              </h1>
+            </div>
+          </div>
 
           <Button className="w-full sm:w-auto" onClick={() => setIsProfileModalOpen(true)}>
             Editar perfil
@@ -136,6 +152,7 @@ export function PatientDashboard({ user }: PatientDashboardProps) {
           onClose={() => setIsProfileModalOpen(false)}
           initialName={user.name}
           initialEmail={user.email}
+          profileKey={getProfileImageKey(user.id)}
         />
       </section>
     </main>
