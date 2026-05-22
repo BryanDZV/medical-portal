@@ -15,7 +15,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h3 className="font-semibold text-white">Navegación</h3>
+          <h3 className="font-semibold text-white" tabIndex={0}>Navegación</h3>
 
           <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm lg:justify-start">
             <Link href="/" className="transition-colors hover:text-white" prefetch={false}>
@@ -33,7 +33,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3" tabIndex={0}>
           <h3 className="font-semibold text-white">Contacto</h3>
 
           <div className="space-y-2 text-sm text-slate-400">

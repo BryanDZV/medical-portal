@@ -1,8 +1,6 @@
 import { Container } from "@/components/atoms/Container";
-import { Button } from "@/components/atoms/Button";
 import { Header } from "../layout/Header";
 import Image from "next/image";
-import { HomeAuthActions } from "../layout/HomeAuthActions";
 
 export function HeroSection() {
   return (
@@ -21,33 +19,21 @@ export function HeroSection() {
 
       <Container className="relative z-10 flex min-h-screen items-center pt-16">
         <div className="max-w-2xl space-y-6 text-center sm:text-left">
-          <p className="text-sm font-semibold uppercase tracking-wider text-sky-700">
+          <p className="text-sm font-semibold uppercase tracking-wider text-sky-700" tabIndex={0}>
             Portal médico digital
           </p>
 
-          <h1 className="text-4xl font-bold leading-tight text-slate-900 md:text-6xl">
+          <h1 className="text-4xl font-bold leading-tight text-slate-900 md:text-6xl" tabIndex={0}>
             Gestiona tus citas médicas de forma simple y segura
-          </h1> 
+          </h1>
 
-           <p className="text-lg text-slate-700">
+          <p className="text-lg text-slate-700">
             Plataforma para pacientes y médicos con acceso personalizado,
             gestión de citas e información clínica según rol.
-          </p> 
-
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-            <HomeAuthActions />
-            <Button
-              asLink="/#services"
-              variant="secondary"
-              size="sm"
-              prefetch={false}
-              className="inline-flex w-auto items-center justify-center whitespace-nowrap px-3 py-1.5 text-[11px] sm:px-4 sm:py-2 sm:text-sm"
-            >
-              Ver servicios
-            </Button>
-          </div>
+          </p>
         </div>
       </Container>
+
     </section>
   );
 }

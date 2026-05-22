@@ -3,15 +3,15 @@ export function AboutSection() {
     <section id="about" className="px-6 py-20 bg-white">
       <div className="mx-auto max-w-6xl grid gap-10 md:grid-cols-2 items-center">
         <div>
-          <p className="text-sm font-semibold uppercase text-blue-600">
+          <p className="text-sm font-semibold uppercase text-blue-600" tabIndex={0}>
             Sobre nosotros
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-slate-900">
+          <h2 className="mt-3 text-4xl font-bold text-slate-900" tabIndex={0}>
             Portal médico para pacientes y profesionales
           </h2>
 
-          <p className="mt-5 text-slate-600 leading-7">
+          <p className="mt-5 text-slate-600 leading-7" tabIndex={0}>
             En Salud Conecta entendemos que detrás de cada consulta hay una
             persona que busca bienestar y tranquilidad. Nacimos con la misión de
             humanizar la medicina, combinando la calidez en el trato con la
@@ -23,7 +23,7 @@ export function AboutSection() {
           </p>
         </div>
 
-        <div className="rounded-2xl bg-slate-100 p-8">
+        <div className="rounded-2xl bg-slate-100 p-8" tabIndex={0}>
           <h3 className="text-xl font-semibold text-slate-900">
             Objetivo principal
           </h3>

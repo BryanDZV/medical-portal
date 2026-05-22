@@ -24,9 +24,7 @@ export function Header() {
           <Link href="/#about" prefetch={false}>Quiénes somos</Link>
           <Link href="/#portal" prefetch={false}>Nuestra plataforma</Link>
           <Link href="/#services" prefetch={false}>Servicios</Link>
-          <Link href="/#articles" prefetch={false}>Artículos</Link>
           <Link href="/#appointments" prefetch={false}>Instrucciones para citas</Link>
-
         </nav>
 
         <HomeAuthActions />

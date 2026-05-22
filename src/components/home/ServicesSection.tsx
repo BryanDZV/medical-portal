@@ -20,11 +20,11 @@ export function ServicesSection() {
   return (
     <section id="portal" className="px-6 py-20 bg-slate-100">
       <div className="mx-auto max-w-6xl">
-        <p className="text-sm font-semibold uppercase text-blue-600">
+        <p className="text-sm font-semibold uppercase text-blue-600" tabIndex={0}>
           Adaptate a la comodidad
         </p>
 
-        <h2 className="mt-3 text-4xl font-bold text-slate-900">
+        <h2 className="mt-3 text-4xl font-bold text-slate-900" tabIndex={0}>
           Qué permite hacer la plataforma
         </h2>
 
@@ -33,6 +33,7 @@ export function ServicesSection() {
             <article
               key={service.title}
               className="rounded-2xl bg-white p-6 shadow-sm"
+              tabIndex={0}
             >
               <h3 className="text-xl font-semibold text-slate-900">
                 {service.title}

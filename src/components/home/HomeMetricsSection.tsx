@@ -61,10 +61,10 @@ export function HomeMetricsSection({
   ];
 
   return (
-    <section className="bg-slate-50 py-16">
+    <section id="metrics" className="bg-slate-50 py-16">
       <Container>
         <div className="mb-10 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-700">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-700" tabIndex={0}>
             Métricas del centro
           </p>
           <h2 className="mt-3 text-3xl font-bold text-slate-900 md:text-4xl">
@@ -76,7 +76,7 @@ export function HomeMetricsSection({
           {metrics.map((metric) => (
             <article
               key={metric.title}
-              className="w-[85vw] max-w-[320px] shrink-0 snap-center rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:w-auto md:max-w-none"
+              className="w-[85vw] max-w-[320px] shrink-0 snap-center rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:w-auto md:max-w-none" tabIndex={0}
             >
               <h3 className="text-xl sm:text-2xl pb-4 sm:pb-5 text-center font-semibold text-slate-900">
                 {metric.prefix}

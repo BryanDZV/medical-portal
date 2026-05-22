@@ -4,10 +4,10 @@ export function HowToSection() {
     <section id="appointments" className="px-6 py-20 bg-slate-100">
       <div className="mx-auto max-w-6xl">
         <div className="pb-10">
-          <h2 className="mt-3 pb-5 text-3xl text-center font-bold text-[#4c5895] sm:text-4xl">
+          <h2 className="mt-3 pb-5 text-3xl text-center font-bold text-[#4c5895] sm:text-4xl" tabIndex={0}>
             ¿Cómo solicitar una cita médica?
           </h2>
-          <p className="text-center max-w-3xl mx-auto leading-7 text-slate-600">
+          <p className="text-center max-w-3xl mx-auto leading-7 text-slate-600" tabIndex={0}>
             Para registrase como paciente de nuestros hospitales debera mandar
             un correo a{" "}
             <Link
