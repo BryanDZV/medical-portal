@@ -40,7 +40,7 @@ export function DoctorMetricsGrid({ user }: DoctorMetricsGridProps) {
   const totalMedicalRecords = doctor
     ? records.filter((record) => record.doctorId === doctor.id).length
     : 0;
-
+//throw new Error("Demo: fallo controlado para probar ErrorBoundary");
   return (
     <section className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       <StatCard
