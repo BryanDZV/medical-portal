@@ -50,7 +50,7 @@ export function LoginForm() {
 
     if (!result || result.error) {
       setErrors({
-        general: "Credenciales incorrectas. Revisa el email y la contraseña.",
+        general: "Usuario y/o contraseña incorrectos.",
       });
       return;
     }
@@ -110,10 +110,6 @@ export function LoginForm() {
               placeholder="doctor@clinic.com"
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 disabled:bg-slate-200"
             />
-
-            {errors.email && (
-              <p className="mt-2 text-sm text-red-600">{errors.email}</p>
-            )}
           </div>
 
           <div>
@@ -136,10 +132,6 @@ export function LoginForm() {
               placeholder="********"
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 disabled:bg-slate-200"
             />
-
-            {errors.password && (
-              <p className="mt-2 text-sm text-red-600">{errors.password}</p>
-            )}
           </div>
 
           {errors.general && (
