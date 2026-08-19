@@ -88,6 +88,12 @@ export function LoginForm() {
         <h1 className="text-3xl font-bold text-slate-900">Iniciar sesión</h1>
 
         <p className="mt-2 text-slate-600">Accede con tus credenciales.</p>
+        <p className="mt-2 text-slate-600">
+          Prueba con: doctor@clinic.com / Doctor123!
+        </p>
+        <p className="mt-2 text-slate-600">
+          Prueba con: paciente@mail.com / Paciente123!
+        </p>
 
         <div className="mt-8 space-y-5">
           <div>
@@ -129,7 +135,7 @@ export function LoginForm() {
                 setPassword(event.target.value);
                 setErrors({});
               }}
-              placeholder="********"
+              placeholder="Doctor123!"
               className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 disabled:bg-slate-200"
             />
           </div>
